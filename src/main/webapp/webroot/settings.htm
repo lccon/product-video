@@ -130,12 +130,12 @@
         }
         this.tipFailure = false;
         this.msg = '';
-        let {status, msg, token} = ajaxLogin.apply("modify_user_settings");
-        if (status === undefined || status === "failure") {
-          this.msg = msg || '网络连接异常';
+        const tokenMsg = ajaxLogin.apply("modify_user_settings");
+        if (tokenMsg.message != null && tokenMsg.message != "") {
+          this.msg = tokenMsg.message || '网络连接异常';
           this.tipFailure = true;
-        } else if (status === "success") {
-          utils.setCookie("apply", token);
+        } else {
+          utils.setCookie("apply", tokenMsg.token);
         }
         const updateUserData = ajaxUser.update({
           username: this.username,

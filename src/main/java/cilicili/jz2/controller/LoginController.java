@@ -52,27 +52,18 @@ public class LoginController {
 	
 	@RequestMapping (value = "/apply", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Serializable> apply(String token, String ussage) {
-		Map<String, Serializable> result = new HashMap<>();
-		result.put("status", "failure");
-		User user;
-		try {
-			Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-			user = userService.findUserById(tokenCheck.getUserId());
-			if (user == null) {
-				throw new TokenUtil.TokenNotFound("用户不存在");
-			}
-			if (ussage.equals(TokenUtil.TokenUssage.UPLOAD_FILE) || ussage.equals(TokenUtil.TokenUssage.UPDATE_VIDEO_INFO) || ussage.equals(TokenUtil.TokenUssage.MODIFY_USER_SETTINGS)) {
-				Token newToken = TokenUtil.createToken(user.getId(), ussage, 1, Period.of(0, 0, 1));
-				result.put("status", "success");
-				result.put("token", newToken.getToken());
-			} else {
-				result.put("msg", "非法获取权限");
-			}
-		} catch (TokenUtil.TokenExpired | TokenUtil.TokenNotFound | TokenUtil.TokenOverAuthed | TokenUtil.TokenUssageNotMatched tokenError) {
-			result.put("msg", tokenError.getMessage());
+	public Token apply(String token, String ussage) {
+		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
+		User user = userService.findUserById(tokenCheck.getUserId());
+		if (user == null) {
+			throw new BusinessValidationException("用户不存在");
 		}
-		return result;
+		if (ussage.equals(TokenUtil.TokenUssage.UPLOAD_FILE) || ussage.equals(TokenUtil.TokenUssage.UPDATE_VIDEO_INFO) || ussage.equals(TokenUtil.TokenUssage.MODIFY_USER_SETTINGS)) {
+			Token newToken = TokenUtil.createToken(user.getId(), ussage, 1, Period.of(0, 0, 1));
+			return newToken;
+		} else {
+			throw new BusinessValidationException("非法获取权限");
+		}
 	}
 	
 }
