@@ -204,14 +204,14 @@
           utils.setCookie("apply", token);
         }
         let url = "";
-        ({status, msg, url} = ajaxUpload.upload(new FormData(document.forms['imageform'])));
-        if (status === undefined || status === "failure") {
-          msg = msg || '网络连接异常';
+        const imageMsg = ajaxUpload.upload(new FormData(document.forms['imageform']));
+        if (imageMsg.message != null && imageMsg.message != "") {
+          const msg = imageMsg.message || '网络连接异常';
           this.uploadInfo = '图片上传失败：' + msg + '， 请刷新后重试';
           this.uploadInfoColor = 'danger';
           return;
-        } else if (status === "success") {
-          this.videofile.picUrl = url;
+        } else {
+          this.videofile.picUrl = imageMsg;
         }
         ({status, msg, token} = ajaxLogin.apply("upload_file"));
         if (status === undefined || status === "failure") {
@@ -221,14 +221,14 @@
         } else if (status === "success") {
           utils.setCookie("apply", token);
         }
-        ({status, msg, url} = ajaxUpload.upload(new FormData(document.forms['videoform'])));
-        if (status === undefined || status === "failure") {
-          msg = msg || '网络连接异常';
+        const videoInfo = ajaxUpload.upload(new FormData(document.forms['videoform']));
+        if (videoInfo.message != null && videoInfo.message != "") {
+          const msg = videoInfo.message || '网络连接异常';
           this.uploadInfo = '视频上传失败：' + msg + '， 请刷新后重试';
           this.uploadInfoColor = 'danger';
           return;
-        } else if (status === "success") {
-          this.videofile.url = url;
+        } else {
+          this.videofile.url = videoInfo;
         }
         const videoMsg = ajaxVideo.add(this.videofile);
         if (videoMsg.message != null && videoMsg.message != "") {
