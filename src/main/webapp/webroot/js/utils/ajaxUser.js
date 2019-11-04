@@ -13,11 +13,12 @@ const ajaxUser = {
   }, add({username, password}) {
     let json = {};
     $.post(
-      API_SERVER_padEnd("user/add"), {
+      API_SERVER_padEnd("/user/add"), {
         username, password
       }, response => {
         json = response;
-      });
+      }
+      );
     return json;
   }, update({username, password}) {
     let json = {};

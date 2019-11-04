@@ -353,7 +353,7 @@
     const video_vue = new Vue({
         el: '#video_vue'
         , data: {
-            STORAGE_SERVER: API_SERVER + '/webroot/upload/'
+            STORAGE_SERVER: '/webroot/upload/'
             , login: LOGIN_STATUS != null && LOGIN_STATUS.id != null
             , user: LOGIN_STATUS
             , videoFound: VIDEO_INFO != null && VIDEO_INFO.id != null
