@@ -1,9 +1,9 @@
 /* created at 2018/4/12 by BlueSky @cilicili */
 const ajaxUpload = {
-  upload(data) {
+  upload(data, bgsound) {
     let json = {};
     $.ajax({
-      url:API_SERVER_padEnd("/upload/"+`${utils.getCookie('apply')}`),
+      url:API_SERVER_padEnd("/upload/"+`${utils.getCookie('apply')}`+"/"+bgsound),
       data,
       type: 'POST',
       encType: 'multipart/form-data',

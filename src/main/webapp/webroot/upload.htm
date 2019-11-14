@@ -74,6 +74,13 @@
                 <p style="margin-top: 10px; max-width: 500px; overflow-wrap: break-word">{{imageInfo}}</p>
               </td>
             </tr>
+            <tr>
+              <td>是否添加背景音乐</td>
+              <td>
+                <input type="radio" value="1" v-model="videofile.bgsound"/>是
+                <input type="radio" value="0" v-model="videofile.bgsound"/>否
+              </td>
+            </tr>
             </tbody>
           </table>
           <button :class="['btn', 'btn-success', uploadClicked ? 'disabled' : '']" @click="upload">上传</button>
@@ -109,7 +116,6 @@
 <script src="js/vue/nav_vue.js"></script>
 <script src="js/vue/footer_vue.js"></script>
 <script>
-  
   const upload_vue = new Vue({
     el: '#upload_vue'
     , data: {
@@ -120,6 +126,7 @@
         , picUrl: ''
         , uploadUserid: ''
         , description: ''
+        , bgsound:'0'
       }
       , imageData: ''
       , videoSelected: false
@@ -204,7 +211,7 @@
           utils.setCookie("apply", fileMsg.token);
         }
         let url = "";
-        const imageMsg = ajaxUpload.upload(new FormData(document.forms['imageform']));
+        const imageMsg = ajaxUpload.upload(new FormData(document.forms['imageform']), null);
         if (imageMsg.message != null && imageMsg.message != "") {
           const msg = imageMsg.message || '网络连接异常';
           this.uploadInfo = '图片上传失败：' + msg + '， 请刷新后重试';
@@ -221,7 +228,7 @@
         } else {
           utils.setCookie("apply", uploadMsg.token);
         }
-        const videoInfo = ajaxUpload.upload(new FormData(document.forms['videoform']));
+        const videoInfo = ajaxUpload.upload(new FormData(document.forms['videoform']), this.videofile.bgsound);
         if (videoInfo.message != null && videoInfo.message != "") {
           const msg = videoInfo.message || '网络连接异常';
           this.uploadInfo = '视频上传失败：' + msg + '， 请刷新后重试';

@@ -126,6 +126,15 @@
       <version>1.2.31</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/it.sauronsoftware/jave -->
+    <dependency>
+      <groupId>it.sauronsoftware</groupId>
+      <artifactId>jave</artifactId>
+      <version>1.0.2</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/jave-1.0.2.jar</systemPath>
+    </dependency>
+
   </dependencies>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
