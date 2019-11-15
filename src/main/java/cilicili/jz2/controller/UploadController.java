@@ -45,18 +45,31 @@ public class UploadController {
 			storageFilename = RandomUtil.getRandomFilename(extension, filename, token);
 			storageFile = new File(realPath + "\\" + storageFilename);
 			file.transferTo(storageFile);
-			if(bgsound != null && bgsound.equals("1")) {
+			if(bgsound != null && bgsound != "null") {
 				Encoder encoder =new Encoder();
 				MultimediaInfo m = encoder.getInfo(storageFile);
 				long seconds = m.getDuration()/1000;
 
-				String convertUrl = AttachConvertUtil.videoConvert("C:\\Users\\n-335\\Music\\picture.mp3",
-						storageFilename, seconds, request);
-				File originalFile = new File(realPath + "\\" + storageFilename);
-				if(originalFile.exists()) {
-					originalFile.delete();
+				if(bgsound.equals("1")) {
+					String convertUrl = AttachConvertUtil.existSoundVideoConvert(storageFilename, seconds, request);
+					File originalFile = new File(realPath + "\\" + storageFilename);
+					if (originalFile.exists()) {
+						originalFile.delete();
+					}
+					return convertUrl;
+				} else if (bgsound.equals("2")) {
+					String noSoundVideoUrl = AttachConvertUtil.noSoundConvert(storageFilename, request);
+					String videoUrl = AttachConvertUtil.noSoundVideoConvert(noSoundVideoUrl, seconds, request);
+					File originalFile = new File(realPath + "\\" + storageFilename);
+					File noSoundFile = new File(realPath + "\\" + noSoundVideoUrl);
+					if (originalFile.exists()) {
+						originalFile.delete();
+					}
+					if (noSoundFile.exists()) {
+						noSoundFile.delete();
+					}
+					return videoUrl;
 				}
-				return convertUrl;
 			}
 			return storageFilename;
 		} catch (Exception e) {

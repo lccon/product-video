@@ -77,8 +77,13 @@
             <tr>
               <td>是否添加背景音乐</td>
               <td>
-                <input type="radio" value="1" v-model="videofile.bgsound"/>是
-                <input type="radio" value="0" v-model="videofile.bgsound"/>否
+                <!--<input type="radio" value="1" v-model="videofile.bgsound"/>是
+                <input type="radio" value="0" v-model="videofile.bgsound"/>否-->
+                <select class="form-control" v-model="videofile.bgsound">
+                  <option value="1" class="form-control">添加并包含原视频音乐</option>
+                  <option value="2" class="form-control">添加但不含原视频音乐</option>
+                  <option value="0" selected class="form-control">不添加</option>
+                </select>
               </td>
             </tr>
             </tbody>
