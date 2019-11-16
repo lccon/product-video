@@ -45,31 +45,22 @@ public class UploadController {
 			storageFilename = RandomUtil.getRandomFilename(extension, filename, token);
 			storageFile = new File(realPath + "\\" + storageFilename);
 			file.transferTo(storageFile);
-			if(bgsound != null && bgsound != "null") {
+			if(bgsound != null && !"null".equals(bgsound) && !"0".equals(bgsound)) {
 				Encoder encoder =new Encoder();
 				MultimediaInfo m = encoder.getInfo(storageFile);
 				long seconds = m.getDuration()/1000;
 
+				String videoConvertUrl = null;
 				if(bgsound.equals("1")) {
-					String convertUrl = AttachConvertUtil.existSoundVideoConvert(storageFilename, seconds, request);
-					File originalFile = new File(realPath + "\\" + storageFilename);
-					if (originalFile.exists()) {
-						originalFile.delete();
-					}
-					return convertUrl;
+					videoConvertUrl = AttachConvertUtil.existSoundVideoConvert(storageFilename, seconds, request);
 				} else if (bgsound.equals("2")) {
-					String noSoundVideoUrl = AttachConvertUtil.noSoundConvert(storageFilename, request);
-					String videoUrl = AttachConvertUtil.noSoundVideoConvert(noSoundVideoUrl, seconds, request);
-					File originalFile = new File(realPath + "\\" + storageFilename);
-					File noSoundFile = new File(realPath + "\\" + noSoundVideoUrl);
-					if (originalFile.exists()) {
-						originalFile.delete();
-					}
-					if (noSoundFile.exists()) {
-						noSoundFile.delete();
-					}
-					return videoUrl;
+					videoConvertUrl = AttachConvertUtil.noSoundVideoConvert(storageFilename, seconds, request);
 				}
+				File originalFile = new File(realPath + "\\" + storageFilename);
+				if (originalFile.exists()) {
+					originalFile.delete();
+				}
+				return videoConvertUrl;
 			}
 			return storageFilename;
 		} catch (Exception e) {
