@@ -5,10 +5,12 @@ import cilicili.jz2.dao.MyVideoMapper;
 import cilicili.jz2.dao.VideoMapper;
 import cilicili.jz2.domain.Token;
 import cilicili.jz2.domain.User;
+import cilicili.jz2.domain.VideoCommentPraise;
 import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.exception.base.ServiceValidationException;
 import cilicili.jz2.domain.Video;
 import cilicili.jz2.service.UserService;
+import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service ("videoService")
@@ -26,6 +29,8 @@ public class VideoServiceImpl implements VideoService {
 	private MyVideoMapper myVideoMapper;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private VideoCommentPraiseService videoCommentPraiseService;
 
 	@Override
 	public Video findVideoById(Integer id) {
@@ -83,12 +88,24 @@ public class VideoServiceImpl implements VideoService {
 	}
 	
 	@Override
-	public Video updateVideo(Integer id, Integer readCount) {
+	public Video updateVideo(Integer id, Integer readCount, String token) {
 		Video video = findVideoById(id);
 		if(VideoConstants.PLAY_COUNT.equals(readCount)) {
 			video.setCountPlay(video.getCountPlay() + 1);
 		} else if (VideoConstants.LIKE_COUNT.equals(readCount)) {
-			video.setCountLike(video.getCountLike() + 1);
+			Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
+			User user = userService.findUserById(tokenCheck.getUserId());
+			VideoCommentPraise videoPraise = new VideoCommentPraise();
+			videoPraise.setVideoId(id);
+			videoPraise.setUserId(user.getId());
+			Integer count = videoCommentPraiseService.countVideoCommentPraiseNum(videoPraise);
+			if(count > 0) {
+				throw new BusinessValidationException("赞过啦！");
+			} else {
+				videoPraise.setCreateDate(new Date());
+				videoCommentPraiseService.addVideoCommentPraise(videoPraise);
+				video.setCountLike(video.getCountLike() + 1);
+			}
 		}
 		try {
 			videoMapper.updateByPrimaryKeySelective(video);

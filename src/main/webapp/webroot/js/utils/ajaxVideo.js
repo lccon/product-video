@@ -31,7 +31,7 @@ const ajaxVideo = {
     let json = {};
     $.post(
       API_SERVER_padEnd("video/like"), {
-        id, operateState
+        id, operateState, token: utils.getCookie("token")
       }, response => {
         json = response;
       });

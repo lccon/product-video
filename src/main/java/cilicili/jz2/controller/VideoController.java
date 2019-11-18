@@ -37,13 +37,13 @@ public class VideoController {
 	@RequestMapping ("/play")
 	@ResponseBody
 	public Video playVideo(Integer id, Integer operateState) {
-		return videoService.updateVideo(id, operateState);
+		return videoService.updateVideo(id, operateState, null);
 	}
 	
 	@RequestMapping ("/like")
 	@ResponseBody
-	public Video likeVideo(Integer id, Integer operateState) {
-		return videoService.updateVideo(id, operateState);
+	public Video likeVideo(Integer id, Integer operateState, String token) {
+		return videoService.updateVideo(id, operateState, token);
 	}
 	
 	@RequestMapping ("/show")

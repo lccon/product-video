@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cilicili.jz2.dao.VideoCommentPraiseMapper">
+    <resultMap id="videoCommentPraiseMap" type="cilicili.jz2.domain.VideoCommentPraise">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="videoId" column="video_id"/>
+        <result property="commentId" column="comment_id"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, user_id, video_id, comment_id, create_date
+    </sql>
+
+    <insert id="addVideoCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
+        <selectKey keyColumn="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO video_comment_praise
+        (id, user_id, video_id, comment_id, create_date)
+        VALUES
+        (#{id}, #{userId}, #{videoId}, #{commentId}, #{createDate})
+    </insert>
+
+    <select id="countVideoCommentPraiseNum" parameterType="cilicili.jz2.domain.VideoCommentPraise"
+            resultType="java.lang.Integer">
+        SELECT count(*) FROM video_comment_praise
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="videoId != null">
+                and video_id = #{videoId}
+            </if>
+            <if test="commentId != null">
+                and comment_id = #{commentId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

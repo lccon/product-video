@@ -11,7 +11,7 @@ public interface VideoService {
 
 	Video addVideo(Video video,  String token);
 
-	Video updateVideo(Integer id, Integer readCount);
+	Video updateVideo(Integer id, Integer readCount, String token);
 	
 	List<Video> showVideos();
 	
