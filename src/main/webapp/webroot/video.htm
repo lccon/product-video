@@ -329,7 +329,7 @@
 <script src="js/vue/footer_vue.js"></script>
 <script>
     // 播放量更新
-    ajaxVideo.play(VIDEO_INFO.id);
+    ajaxVideo.play(VIDEO_INFO.id, 1);
 
     // 加载评论
     let hasNextPage = false;
@@ -389,7 +389,7 @@
         , methods: {
             like() {
                 if (!this.liked) {
-                    ajaxVideo.like(VIDEO_INFO.id);
+                    ajaxVideo.like(VIDEO_INFO.id, 2);
                     this.video.countLike++;
                     this.liked = true;
                 }

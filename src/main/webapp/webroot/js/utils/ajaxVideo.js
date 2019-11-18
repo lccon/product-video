@@ -18,20 +18,20 @@ const ajaxVideo = {
         json = response;
       });
     return json;
-  }, play(id) {
+  }, play(id, operateState) {
     let json = {};
     $.post(
       API_SERVER_padEnd("video/play"), {
-        id
+        id, operateState
       }, response => {
         json = response;
       });
     return json;
-  }, like(id) {
+  }, like(id, operateState) {
     let json = {};
     $.post(
       API_SERVER_padEnd("video/like"), {
-        id
+        id, operateState
       }, response => {
         json = response;
       });

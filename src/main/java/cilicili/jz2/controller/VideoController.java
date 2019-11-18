@@ -36,14 +36,14 @@ public class VideoController {
 	
 	@RequestMapping ("/play")
 	@ResponseBody
-	public Video playVideo(Integer id) {
-		return videoService.updateVideo(id, VideoConstants.PLAY_COUNT);
+	public Video playVideo(Integer id, Integer operateState) {
+		return videoService.updateVideo(id, operateState);
 	}
 	
 	@RequestMapping ("/like")
 	@ResponseBody
-	public Video likeVideo(Integer id) {
-		return videoService.updateVideo(id, VideoConstants.LIKE_COUNT);
+	public Video likeVideo(Integer id, Integer operateState) {
+		return videoService.updateVideo(id, operateState);
 	}
 	
 	@RequestMapping ("/show")
