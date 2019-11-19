@@ -1,8 +1,6 @@
 package cilicili.jz2.dao;
 
 import cilicili.jz2.domain.Barrage;
-import cilicili.jz2.domain.BarrageExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

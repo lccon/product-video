@@ -59,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
 		comment.setSendtime(ZonedDateTime.now());
 		comment.setCountLike(0);
 		try {
-			commentMapper.insert(comment);
+			commentMapper.insertComment(comment);
 			return comment;
 		} catch (Exception e) {
 			throw new ServiceValidationException("新增视频评论出错！", e);
@@ -82,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new BusinessValidationException("非本人操作，拒绝授权");
 		}
 		try {
-			Integer count = commentMapper.deleteByPrimaryKey(id);
+			Integer count = commentMapper.deleteComment(id);
 			return count > 0;
 		} catch (Exception e) {
 			throw new ServiceValidationException("删除视频评论出错！", e);
