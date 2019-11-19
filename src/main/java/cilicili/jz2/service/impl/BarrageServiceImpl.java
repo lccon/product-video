@@ -8,6 +8,7 @@ import cilicili.jz2.service.BarrageService;
 import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
+import cilicili.jz2.vo.VideoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -37,8 +38,8 @@ public class BarrageServiceImpl implements BarrageService {
 		if (barrage.getVideoId() == null) {
 			throw new BusinessValidationException("视频id为空");
 		}
-		Video video = videoService.findVideoById(barrage.getVideoId());
-		if (video == null) {
+		VideoVO videoVO = videoService.findVideoById(barrage.getVideoId());
+		if (videoVO == null) {
 			throw new BusinessValidationException("视频不存在！");
 		}
 		if (StringUtils.isEmpty(barrage.getContent())) {

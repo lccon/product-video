@@ -1,8 +1,8 @@
 package cilicili.jz2.controller;
 
-import cilicili.jz2.constant.VideoConstants;
 import cilicili.jz2.domain.Video;
 import cilicili.jz2.service.impl.VideoServiceImpl;
+import cilicili.jz2.vo.VideoVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,25 +24,25 @@ public class VideoController {
 
 	@RequestMapping ("/findId")
 	@ResponseBody
-	public Video findVideoById(Integer id) {
+	public VideoVO findVideoById(Integer id) {
 		return videoService.findVideoById(id);
 	}
 	
 	@RequestMapping ("/add")
 	@ResponseBody
-	public Video addVideo(Video video, String token) {
+	public VideoVO addVideo(Video video, String token) {
 		return videoService.addVideo(video, token);
 	}
 	
 	@RequestMapping ("/play")
 	@ResponseBody
-	public Video playVideo(Integer id, Integer operateState) {
+	public VideoVO playVideo(Integer id, Integer operateState) {
 		return videoService.updateVideo(id, operateState, null);
 	}
 	
 	@RequestMapping ("/like")
 	@ResponseBody
-	public Video likeVideo(Integer id, Integer operateState, String token) {
+	public VideoVO likeVideo(Integer id, Integer operateState, String token) {
 		return videoService.updateVideo(id, operateState, token);
 	}
 	
@@ -54,8 +54,8 @@ public class VideoController {
 			offset = 0;
 		}
 		PageHelper.startPage(offset, 12);
-		ArrayList<Video> videos = (ArrayList<Video>) videoService.showVideos();
-		PageInfo<Video> pageInfo = new PageInfo<>(videos);
+		List<VideoVO> videos = videoService.showVideos();
+		PageInfo<VideoVO> pageInfo = new PageInfo<>(videos);
 		result.put("page", pageInfo);
 		return result;
 	}
@@ -68,8 +68,8 @@ public class VideoController {
 			offset = 0;
 		}
 		PageHelper.startPage(offset, 12);
-		ArrayList<Video> videos = (ArrayList<Video>) videoService.queryVideos(q);
-		PageInfo<Video> pageInfo = new PageInfo<>(videos);
+		List<VideoVO> videos = videoService.queryVideos(q);
+		PageInfo<VideoVO> pageInfo = new PageInfo<>(videos);
 		result.put("page", pageInfo);
 		return result;
 	}

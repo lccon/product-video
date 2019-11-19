@@ -1,7 +1,6 @@
 package cilicili.jz2.service.impl;
 
 import cilicili.jz2.constant.VideoConstants;
-import cilicili.jz2.dao.MyVideoMapper;
 import cilicili.jz2.dao.VideoMapper;
 import cilicili.jz2.domain.Token;
 import cilicili.jz2.domain.User;
@@ -13,6 +12,7 @@ import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
+import cilicili.jz2.vo.VideoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,31 +26,29 @@ public class VideoServiceImpl implements VideoService {
 	@Autowired
 	private VideoMapper videoMapper;
 	@Autowired
-	private MyVideoMapper myVideoMapper;
-	@Autowired
 	private UserService userService;
 	@Autowired
 	private VideoCommentPraiseService videoCommentPraiseService;
 
 	@Override
-	public Video findVideoById(Integer id) {
+	public VideoVO findVideoById(Integer id) {
 		if (id == null) {
 			throw new BusinessValidationException("主键id不能为空");
 		}
 		try {
-			return myVideoMapper.findById(id);
+			return videoMapper.findById(id);
 		} catch (Exception e) {
 			throw new ServiceValidationException("没有该视频！", e);
 		}
 	}
 	
 	@Override
-	public Video findVideoByUrl(String url) {
-		return myVideoMapper.findByUrl(url);
+	public VideoVO findVideoByUrl(String url) {
+		return videoMapper.findByUrl(url);
 	}
 	
 	@Override
-	public Video addVideo(Video video, String token) {
+	public VideoVO addVideo(Video video, String token) {
 		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
 		User user = userService.findUserById(tokenCheck.getUserId());
 		if (user == null) {
@@ -88,10 +86,10 @@ public class VideoServiceImpl implements VideoService {
 	}
 	
 	@Override
-	public Video updateVideo(Integer id, Integer readCount, String token) {
-		Video video = findVideoById(id);
+	public VideoVO updateVideo(Integer id, Integer readCount, String token) {
+		VideoVO videoVo = findVideoById(id);
 		if(VideoConstants.PLAY_COUNT.equals(readCount)) {
-			video.setCountPlay(video.getCountPlay() + 1);
+			videoVo.setCountPlay(videoVo.getCountPlay() + 1);
 		} else if (VideoConstants.LIKE_COUNT.equals(readCount)) {
 			Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
 			User user = userService.findUserById(tokenCheck.getUserId());
@@ -104,24 +102,24 @@ public class VideoServiceImpl implements VideoService {
 			} else {
 				videoPraise.setCreateDate(new Date());
 				videoCommentPraiseService.addVideoCommentPraise(videoPraise);
-				video.setCountLike(video.getCountLike() + 1);
+				videoVo.setCountLike(videoVo.getCountLike() + 1);
 			}
 		}
 		try {
-			videoMapper.updateVideo(video);
-			return video;
+			videoMapper.updateVideo(videoVo);
+			return videoVo;
 		} catch (Exception e) {
 			throw new ServiceValidationException("修改视频信息出错", e);
 		}
 	}
 	
 	@Override
-	public List<Video> showVideos() {
-		return myVideoMapper.findAllVideos();
+	public List<VideoVO> showVideos() {
+		return videoMapper.findAllVideos();
 	}
 	
 	@Override
-	public List<Video> queryVideos(String keyword) {
-		return myVideoMapper.queryVideo("%" + keyword + "%");
+	public List<VideoVO> queryVideos(String keyword) {
+		return videoMapper.queryVideo("%" + keyword + "%");
 	}
 }

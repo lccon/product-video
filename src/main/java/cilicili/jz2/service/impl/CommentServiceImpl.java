@@ -10,6 +10,7 @@ import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
 import cilicili.jz2.vo.CommentVO;
+import cilicili.jz2.vo.VideoVO;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +50,8 @@ public class CommentServiceImpl implements CommentService {
 		if (comment.getVideoId() == null) {
 			throw new BusinessValidationException("视频id为空");
 		}
-		Video video = videoService.findVideoById(comment.getVideoId());
-		if (video == null) {
+		VideoVO videoVo = videoService.findVideoById(comment.getVideoId());
+		if (videoVo == null) {
 			throw new BusinessValidationException("视频不存在");
 		}
 		comment.setUserId(user.getId());

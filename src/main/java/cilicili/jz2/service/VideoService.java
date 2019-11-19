@@ -1,19 +1,20 @@
 package cilicili.jz2.service;
 
 import cilicili.jz2.domain.Video;
+import cilicili.jz2.vo.VideoVO;
 
 import java.util.List;
 
 public interface VideoService {
-	Video findVideoById(Integer id);
+	VideoVO findVideoById(Integer id);
 	
-	Video findVideoByUrl(String url);
+	VideoVO findVideoByUrl(String url);
 
-	Video addVideo(Video video,  String token);
+	VideoVO addVideo(Video video,  String token);
 
-	Video updateVideo(Integer id, Integer readCount, String token);
+	VideoVO updateVideo(Integer id, Integer readCount, String token);
 	
-	List<Video> showVideos();
+	List<VideoVO> showVideos();
 	
-	List<Video> queryVideos(String keyword);
+	List<VideoVO> queryVideos(String keyword);
 }
