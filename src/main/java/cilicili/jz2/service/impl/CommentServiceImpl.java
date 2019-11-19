@@ -9,6 +9,7 @@ import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
+import cilicili.jz2.vo.CommentVO;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,7 +99,11 @@ public class CommentServiceImpl implements CommentService {
 		if (commentPraiseInfo != null) {
 			if (commentPraiseInfo.getHasCommentPraise() == 1) {
 				commentPraise.setHasCommentPraise(0);
-				comment.setCountLike(comment.getCountLike() - 1);
+				if (comment.getCountLike() > 0) {
+					comment.setCountLike(comment.getCountLike() - 1);
+				} else {
+					comment.setCountLike(0);
+				}
 			} else {
 				commentPraise.setHasCommentPraise(1);
 				comment.setCountLike(comment.getCountLike() + 1);
@@ -119,7 +124,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<Comment> showComments(Integer videoId, Integer offset) {
+	public List<CommentVO> findListCommentByVideoId(Integer videoId, Integer offset) {
 		if(videoId == null) {
 			throw new BusinessValidationException("视频id不能为空!");
 		}

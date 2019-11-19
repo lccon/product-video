@@ -1,7 +1,7 @@
 package cilicili.jz2.dao;
 
 import cilicili.jz2.domain.Comment;
-import org.apache.ibatis.annotations.Param;
+import cilicili.jz2.vo.CommentVO;
 
 import java.util.List;
 
@@ -33,12 +33,12 @@ public interface CommentMapper {
      * @param id
      * @return
      */
-    Comment getCommentById(@Param("id") Integer id);
+    Comment getCommentById(Integer id);
 
     /**
      * 获取视频所有评论
      * @param videoId
      * @return
      */
-    List<Comment> findListCommentByVideoId(@Param ("id") int videoId);
+    List<CommentVO> findListCommentByVideoId(Integer videoId);
 }

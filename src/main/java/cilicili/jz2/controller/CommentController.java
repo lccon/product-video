@@ -2,6 +2,7 @@ package cilicili.jz2.controller;
 
 import cilicili.jz2.domain.*;
 import cilicili.jz2.service.impl.CommentServiceImpl;
+import cilicili.jz2.vo.CommentVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class CommentController {
 		if (offset == null) {
 			offset = 0;
 		}
-		List<Comment> comments = commentService.showComments(videoId, offset);
-		PageInfo<Comment> pageInfo = new PageInfo<>(comments);
+		List<CommentVO> comments = commentService.findListCommentByVideoId(videoId, offset);
+		PageInfo<CommentVO> pageInfo = new PageInfo<>(comments);
 		result.put("page", pageInfo);
 		return result;
 	}

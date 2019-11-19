@@ -1,6 +1,7 @@
 package cilicili.jz2.service;
 
 import cilicili.jz2.domain.Comment;
+import cilicili.jz2.vo.CommentVO;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface CommentService {
 
 	Comment updateComment(Integer id, String token);
 	
-	List<Comment> showComments(Integer videoId, Integer offset);
+	List<CommentVO> findListCommentByVideoId(Integer videoId, Integer offset);
 }
