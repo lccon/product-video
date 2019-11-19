@@ -57,18 +57,18 @@
     delete from comments where id = #{id}
   </delete>
 
-  <select id="getCommentById" resultMap="commentVoResultMap">
-    select c.*, u.username send_username from comments c
+  <select id="getCommentById" parameterType="java.lang.Integer" resultMap="commentResultMap">
+    select c.* from comments c
     INNER JOIN users u
     ON c.user_id = u.id
     WHERE c.id = #{id}
   </select>
 
-  <select id="findListCommentByVideoId" resultMap="commentVoResultMap">
+  <select id="findListCommentByVideoId" parameterType="java.lang.Integer" resultMap="commentVoResultMap">
     SELECT c.*, u.username send_username FROM comments c
     INNER JOIN users u
     ON c.user_id = u.id
-    WHERE c.video_id = #{id}
+    WHERE c.video_id = #{videoId}
     ORDER BY c.id DESC
   </select>
 
