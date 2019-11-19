@@ -1,7 +1,6 @@
 package cilicili.jz2.service.impl;
 
 import cilicili.jz2.dao.CommentMapper;
-import cilicili.jz2.dao.MyCommentMapper;
 import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.exception.base.ServiceValidationException;
 import cilicili.jz2.domain.*;
@@ -22,8 +21,6 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentMapper commentMapper;
 	@Autowired
-	private MyCommentMapper myCommentMapper;
-	@Autowired
 	private UserService userService;
 	@Autowired
 	private VideoService videoService;
@@ -32,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment findCommentById(Integer id) {
-		return myCommentMapper.findById(id);
+		return commentMapper.getCommentById(id);
 	}
 	
 	@Override
@@ -114,7 +111,7 @@ public class CommentServiceImpl implements CommentService {
 			videoCommentPraiseService.addVideoCommentPraise(commentPraise);
 		}
 		try {
-			commentMapper.updateByPrimaryKeySelective(comment);
+			commentMapper.updateComment(comment);
 			return comment;
 		} catch (Exception e) {
 			throw new ServiceValidationException("评论点赞出错！", e);
@@ -128,7 +125,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		try {
 			PageHelper.startPage(offset, 10);
-			return myCommentMapper.showComments(videoId);
+			return commentMapper.findListCommentByVideoId(videoId);
 		} catch (Exception e) {
 			throw new ServiceValidationException("获取视频评论出错", e);
 		}
