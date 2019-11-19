@@ -80,7 +80,7 @@ public class VideoServiceImpl implements VideoService {
 			video.setUploadTime(ZonedDateTime.now());
 			video.setCountPlay(0);
 			video.setCountLike(0);
-			videoMapper.insert(video);
+			videoMapper.insertVideo(video);
 			return findVideoByUrl(video.getUrl());
 		} catch (Exception e) {
 			throw new ServiceValidationException("新增视频出错！", e);
@@ -108,7 +108,7 @@ public class VideoServiceImpl implements VideoService {
 			}
 		}
 		try {
-			videoMapper.updateByPrimaryKeySelective(video);
+			videoMapper.updateVideo(video);
 			return video;
 		} catch (Exception e) {
 			throw new ServiceValidationException("修改视频信息出错", e);
