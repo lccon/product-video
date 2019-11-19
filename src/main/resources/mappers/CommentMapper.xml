@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cilicili.jz2.dao.CommentMapper">
-  <resultMap id="BaseResultMap" type="cilicili.jz2.domain.Comment">
+  <resultMap id="commentResultMap" type="cilicili.jz2.domain.Comment">
     <id property="id" column="id"/>
     <result property="videoId" column="video_id"/>
     <result property="userId" column="user_id"/>
     <result property="content" column="content"/>
     <result property="sendtime" column="sendtime"/>
     <result property="countLike" column="count_like"/>
+  </resultMap>
+
+  <resultMap id="commentVoResultMap" type="cilicili.jz2.vo.CommentVO">
+    <id column="id" property="id"/>
+    <result column="video_id" property="videoId"/>
+    <result column="user_id" property="userId"/>
+    <result column="content" property="content"/>
+    <result column="sendtime" property="sendtime"/>
+    <result column="count_like" property="countLike"/>
+    <result column="send_username" property="sendUsername"/>
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -21,7 +31,7 @@
     (#{id}, #{videoId}, #{userId}, #{content}, #{sendtime}, #{countLike})
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="cilicili.jz2.domain.Comment">
+  <update id="updateComment" parameterType="cilicili.jz2.domain.Comment">
     update comments
     <set>
       <if test="videoId != null">
@@ -46,5 +56,20 @@
   <delete id="deleteComment" parameterType="java.lang.Integer">
     delete from comments where id = #{id}
   </delete>
+
+  <select id="getCommentById" resultMap="commentVoResultMap">
+    select c.*, u.username send_username from comments c
+    INNER JOIN users u
+    ON c.user_id = u.id
+    WHERE c.id = #{id}
+  </select>
+
+  <select id="findListCommentByVideoId" resultMap="commentVoResultMap">
+    SELECT c.*, u.username send_username FROM comments c
+    INNER JOIN users u
+    ON c.user_id = u.id
+    WHERE c.video_id = #{id}
+    ORDER BY c.id DESC
+  </select>
 
 </mapper>
