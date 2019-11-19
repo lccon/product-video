@@ -7,25 +7,25 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface BarrageMapper {
-    long countByExample(BarrageExample example);
 
-    int deleteByExample(BarrageExample example);
+    /**
+     * 新增弹幕
+     * @param record
+     * @return
+     */
+    int insertBarrage(Barrage record);
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(Barrage record);
-
-    int insertSelective(Barrage record);
-
+    /**
+     * 查询弹幕列表
+     * @param videoId
+     * @return
+     */
     List<Barrage> findBarrageList(Integer videoId);
 
-    Barrage selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param ("record") Barrage record, @Param ("example") BarrageExample example);
-
-    int updateByExample(@Param ("record") Barrage record, @Param ("example") BarrageExample example);
-
-    int updateByPrimaryKeySelective(Barrage record);
-
-    int updateByPrimaryKey(Barrage record);
+    /**
+     * 修改弹幕
+     * @param record
+     * @return
+     */
+    int updateBarrage(Barrage record);
 }

@@ -59,7 +59,7 @@ public class BarrageServiceImpl implements BarrageService {
 			}
 			barrage.setUserId(user.getId());
 			barrage.setSendtime(ZonedDateTime.now());
-			barrageMapper.insert(barrage);
+			barrageMapper.insertBarrage(barrage);
 			return barrage;
 		} catch (Exception e) {
 			throw new ServiceValidationException("新增弹幕出错", e);
