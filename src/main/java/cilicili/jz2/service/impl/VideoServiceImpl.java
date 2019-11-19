@@ -98,7 +98,7 @@ public class VideoServiceImpl implements VideoService {
 			VideoCommentPraise videoPraise = new VideoCommentPraise();
 			videoPraise.setVideoId(id);
 			videoPraise.setUserId(user.getId());
-			Integer count = videoCommentPraiseService.countVideoCommentPraiseNum(videoPraise);
+			Integer count = videoCommentPraiseService.countVideoPraiseNum(videoPraise);
 			if(count > 0) {
 				throw new BusinessValidationException("赞过啦！");
 			} else {

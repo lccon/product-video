@@ -11,7 +11,7 @@ public interface CommentService {
 
 	Boolean deleteComment(Integer id, String token);
 
-	Comment updateComment(Integer id);
+	Comment updateComment(Integer id, String token);
 	
 	List<Comment> showComments(Integer videoId, Integer offset);
 }

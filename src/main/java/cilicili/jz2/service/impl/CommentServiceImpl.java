@@ -7,12 +7,14 @@ import cilicili.jz2.exception.base.ServiceValidationException;
 import cilicili.jz2.domain.*;
 import cilicili.jz2.service.CommentService;
 import cilicili.jz2.service.UserService;
+import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
 import cilicili.jz2.utils.TokenUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service("commentService")
@@ -25,6 +27,8 @@ public class CommentServiceImpl implements CommentService {
 	private UserService userService;
 	@Autowired
 	private VideoService videoService;
+	@Autowired
+	private VideoCommentPraiseService videoCommentPraiseService;
 
 	@Override
 	public Comment findCommentById(Integer id) {
@@ -86,14 +90,34 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Comment updateComment(Integer id) {
+	public Comment updateComment(Integer id, String token) {
 		Comment comment = findCommentById(id);
-		comment.setCountLike(comment.getCountLike() + 1);
+		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
+		User user = userService.findUserById(tokenCheck.getUserId());
+		VideoCommentPraise commentPraise = new VideoCommentPraise();
+		commentPraise.setUserId(user.getId());
+		commentPraise.setCommentId(id);
+		VideoCommentPraise commentPraiseInfo = videoCommentPraiseService.getCommentPraiseInfo(commentPraise);
+		if (commentPraiseInfo != null) {
+			if (commentPraiseInfo.getHasCommentPraise() == 1) {
+				commentPraise.setHasCommentPraise(0);
+				comment.setCountLike(comment.getCountLike() - 1);
+			} else {
+				commentPraise.setHasCommentPraise(1);
+				comment.setCountLike(comment.getCountLike() + 1);
+			}
+			videoCommentPraiseService.updateCommentPraise(commentPraise);
+		} else {
+			commentPraise.setHasCommentPraise(1);
+            commentPraise.setCreateDate(new Date());
+			comment.setCountLike(comment.getCountLike() + 1);
+			videoCommentPraiseService.addVideoCommentPraise(commentPraise);
+		}
 		try {
 			commentMapper.updateByPrimaryKeySelective(comment);
 			return comment;
 		} catch (Exception e) {
-			throw new ServiceValidationException("点赞出错！", e);
+			throw new ServiceValidationException("评论点赞出错！", e);
 		}
 	}
 	

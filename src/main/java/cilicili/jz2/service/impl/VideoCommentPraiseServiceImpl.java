@@ -33,14 +33,39 @@ public class VideoCommentPraiseServiceImpl implements VideoCommentPraiseService 
     }
 
     @Override
-    public Integer countVideoCommentPraiseNum(VideoCommentPraise videoCommentPraise) {
-        if (videoCommentPraise == null) {
+    public Integer countVideoPraiseNum(VideoCommentPraise videoPraise) {
+        if (videoPraise == null) {
             throw new BusinessValidationException("参数不能为空!");
         }
         try {
-            return videoCommentPraiseMapper.countVideoCommentPraiseNum(videoCommentPraise);
+            return videoCommentPraiseMapper.countVideoPraiseNum(videoPraise);
         } catch (Exception e) {
-            throw new ServiceValidationException("统计视频点赞或评论点赞的数量!", e);
+            throw new ServiceValidationException("统计视频点赞数量出错!", e);
         }
     }
+
+    @Override
+    public VideoCommentPraise getCommentPraiseInfo(VideoCommentPraise commentPraise) {
+        if (commentPraise == null) {
+            throw new BusinessValidationException("参数不能为空!");
+        }
+        try {
+            return videoCommentPraiseMapper.getCommentPraiseInfo(commentPraise);
+        } catch (Exception e) {
+            throw new ServiceValidationException("统计评论点赞的数量出错!", e);
+        }
+    }
+
+    @Override
+    public void updateCommentPraise(VideoCommentPraise commentPraise) {
+        if (commentPraise == null) {
+            throw new BusinessValidationException("参数不能为空!");
+        }
+        try {
+            videoCommentPraiseMapper.updateCommentPraise(commentPraise);
+        } catch (Exception e) {
+            throw new ServiceValidationException("修改评论点赞的信息!", e);
+        }
+    }
+
 }

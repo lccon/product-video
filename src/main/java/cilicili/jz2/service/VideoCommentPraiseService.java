@@ -17,9 +17,23 @@ public interface VideoCommentPraiseService {
     void addVideoCommentPraise(VideoCommentPraise videoCommentPraise);
 
     /**
-     * 统计视频点赞或评论点赞的数量
-     * @param videoCommentPraise
+     * 统计视频点赞的数量
+     * @param videoPraise
      * @return
      */
-    Integer countVideoCommentPraiseNum(VideoCommentPraise videoCommentPraise);
+    Integer countVideoPraiseNum(VideoCommentPraise videoPraise);
+
+    /**
+     * 获取评论点赞的信息
+     * @param commentPraise
+     * @return
+     */
+    VideoCommentPraise getCommentPraiseInfo(VideoCommentPraise commentPraise);
+
+    /**
+     * 修改评论点赞的信息
+     * @param commentPraise
+     * @return
+     */
+    void updateCommentPraise(VideoCommentPraise commentPraise);
 }

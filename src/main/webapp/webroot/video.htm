@@ -250,9 +250,9 @@
                       <span @click="likeComment" :id="'comment-' + idx" style="cursor: pointer">
                         👍 {{comment.countLike}}
                       </span>
-                      <span :id="'comment-liked-' + idx" style="display: none; cursor: default">
+                      <!--<span :id="'comment-liked-' + idx" style="display: none; cursor: default">
                         👍 {{comment.countLike}}
-                      </span>
+                      </span>-->
                     </div>
                     <br><br>
                     <div class="col-xs-12 content">
@@ -457,8 +457,8 @@
                 const comment = this.comments[idx];
                 const data = ajaxComment.like(comment.id);
                 comment.countLike = data.countLike;
-                $(`#comment-${idx}`)[0].style.display = 'none';
-                $(`#comment-liked-${idx}`)[0].style.display = 'block';
+                /*$(`#comment-${idx}`)[0].style.display = 'none';
+                $(`#comment-liked-${idx}`)[0].style.display = 'block';*/
             }, deleteComment(e) {
                 const idx = e.target.id.replace('comment-delete-', '');
                 const comment = this.comments[idx];

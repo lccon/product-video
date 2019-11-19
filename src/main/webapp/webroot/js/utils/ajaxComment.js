@@ -31,7 +31,7 @@ const ajaxComment = {
     let json = {};
     $.post(
       API_SERVER_padEnd("comment/like"), {
-        id
+        id, token: utils.getCookie("token")
       }, response => {
         json = response;
       });

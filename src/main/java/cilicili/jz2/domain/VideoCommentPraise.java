@@ -18,6 +18,8 @@ public class VideoCommentPraise implements Serializable {
     private Integer videoId;
     /** 评论id */
     private Integer commentId;
+    /** 用户是否已经对评论进行过点赞 0:否，1:是*/
+    private Integer hasCommentPraise;
     /** 创建时间 */
     private Date createDate;
 
@@ -59,5 +61,13 @@ public class VideoCommentPraise implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Integer getHasCommentPraise() {
+        return hasCommentPraise;
+    }
+
+    public void setHasCommentPraise(Integer hasCommentPraise) {
+        this.hasCommentPraise = hasCommentPraise;
     }
 }

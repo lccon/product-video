@@ -47,8 +47,8 @@ public class CommentController {
 	
 	@RequestMapping ("/like")
 	@ResponseBody
-	public Comment likeComment(Integer id) {
-		return commentService.updateComment(id);
+	public Comment likeComment(Integer id, String token) {
+		return commentService.updateComment(id, token);
 	}
 	
 }

@@ -6,11 +6,12 @@
         <result property="userId" column="user_id"/>
         <result property="videoId" column="video_id"/>
         <result property="commentId" column="comment_id"/>
+        <result property="hasCommentPraise" column="has_comment_praise"/>
         <result property="createDate" column="create_date"/>
     </resultMap>
 
     <sql id="columns">
-        id, user_id, video_id, comment_id, create_date
+        id, user_id, video_id, comment_id, has_comment_praise, create_date
     </sql>
 
     <insert id="addVideoCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
@@ -18,25 +19,29 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO video_comment_praise
-        (id, user_id, video_id, comment_id, create_date)
+        (id, user_id, video_id, comment_id, has_comment_praise, create_date)
         VALUES
-        (#{id}, #{userId}, #{videoId}, #{commentId}, #{createDate})
+        (#{id}, #{userId}, #{videoId}, #{commentId}, #{hasCommentPraise}, #{createDate})
     </insert>
 
-    <select id="countVideoCommentPraiseNum" parameterType="cilicili.jz2.domain.VideoCommentPraise"
+    <select id="countVideoPraiseNum" parameterType="cilicili.jz2.domain.VideoCommentPraise"
             resultType="java.lang.Integer">
         SELECT count(*) FROM video_comment_praise
-        <where>
-            <if test="userId != null">
-                user_id = #{userId}
-            </if>
-            <if test="videoId != null">
-                and video_id = #{videoId}
-            </if>
-            <if test="commentId != null">
-                and comment_id = #{commentId}
-            </if>
-        </where>
+        where user_id = #{userId} and video_id = #{videoId}
     </select>
+
+    <select id="getCommentPraiseInfo" parameterType="cilicili.jz2.domain.VideoCommentPraise"
+            resultMap="videoCommentPraiseMap">
+        SELECT <include refid="columns"/>
+        FROM video_comment_praise
+        where user_id = #{userId}
+        and comment_id = #{commentId}
+    </select>
+
+    <update id="updateCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
+        UPDATE video_comment_praise SET has_comment_praise=#{hasCommentPraise}
+        WHERE user_id = #{userId}
+        and comment_id = #{commentId}
+    </update>
 
 </mapper>
