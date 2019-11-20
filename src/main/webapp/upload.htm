@@ -97,7 +97,7 @@
           <div v-if="uploadInfo.length > 0" :class="['alert', 'alert-' + uploadInfoColor]">
             {{uploadInfo}}
           </div>
-          <a v-if="uploadFinished" class="btn btn-primary" :href="'/webroot/video.htm?id=' + id">查看视频</a>
+          <a v-if="uploadFinished" class="btn btn-primary" :href="'/video.htm?id=' + id">查看视频</a>
         </div>
       </div>
     </template>
