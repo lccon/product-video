@@ -1,10 +1,14 @@
 package cilicili.jz2.service.impl;
 
 import cilicili.jz2.dao.VideoCommentPraiseMapper;
+import cilicili.jz2.domain.Token;
+import cilicili.jz2.domain.User;
 import cilicili.jz2.domain.VideoCommentPraise;
 import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.exception.base.ServiceValidationException;
+import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoCommentPraiseService;
+import cilicili.jz2.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,8 @@ public class VideoCommentPraiseServiceImpl implements VideoCommentPraiseService 
 
     @Autowired
     private VideoCommentPraiseMapper videoCommentPraiseMapper;
+    @Autowired
+    private UserService userService;
 
     @Override
     public void addVideoCommentPraise(VideoCommentPraise videoCommentPraise) {
@@ -65,6 +71,20 @@ public class VideoCommentPraiseServiceImpl implements VideoCommentPraiseService 
             videoCommentPraiseMapper.updateCommentPraise(commentPraise);
         } catch (Exception e) {
             throw new ServiceValidationException("修改评论点赞的信息!", e);
+        }
+    }
+
+    @Override
+    public VideoCommentPraise getVideoPraiseByVideoId(Integer id, String token) {
+        Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
+        User user = userService.findUserById(tokenCheck.getUserId());
+        VideoCommentPraise videoPraise = new VideoCommentPraise();
+        videoPraise.setVideoId(id);
+        videoPraise.setUserId(user.getId());
+        try {
+            return videoCommentPraiseMapper.getVideoPraiseByVideoId(videoPraise);
+        }catch (Exception e) {
+            throw new ServiceValidationException("查询视频点赞失败!", e);
         }
     }
 

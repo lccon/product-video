@@ -36,4 +36,11 @@ public interface VideoCommentPraiseMapper {
      * @return
      */
     void updateCommentPraise(VideoCommentPraise commentPraise);
+
+    /**
+     * 查询视频点赞状态
+     * @param videoPraise
+     * @return
+     */
+    VideoCommentPraise getVideoPraiseByVideoId(VideoCommentPraise videoPraise);
 }

@@ -54,5 +54,14 @@ const ajaxVideo = {
         json = response;
       });
     return json;
-  }
+  }, getVideoPraise(id) {
+        let json = {};
+        $.post(
+            API_SERVER_padEnd("videoCommentPraise/getVideoPraise"), {
+                id, token: utils.getCookie("token")
+            }, response => {
+                json = response;
+            });
+        return json;
+    }
 };

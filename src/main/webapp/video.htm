@@ -350,7 +350,7 @@
         } = page);
     }
 
-    const videoMsg = ajaxVideo.like(VIDEO_INFO.id, 2);
+    let videoMsg = ajaxVideo.getVideoPraise(VIDEO_INFO.id);
 
     const video_vue = new Vue({
         el: '#video_vue'
@@ -360,7 +360,7 @@
             , user: LOGIN_STATUS
             , videoFound: VIDEO_INFO != null && VIDEO_INFO.id != null
             , video: VIDEO_INFO
-            , liked: videoMsg != null && videoMsg.message != null && videoMsg.message != ""
+            , liked: videoMsg != null && videoMsg != "" && videoMsg.message == null
             , newBarrage: {
                 color: '白色'
                 , position: '浮动'

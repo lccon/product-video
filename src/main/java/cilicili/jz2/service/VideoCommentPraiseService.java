@@ -36,4 +36,12 @@ public interface VideoCommentPraiseService {
      * @return
      */
     void updateCommentPraise(VideoCommentPraise commentPraise);
+
+    /**
+     * 查询视频点赞状态
+     * @param id
+     * @param token
+     * @return
+     */
+    VideoCommentPraise getVideoPraiseByVideoId(Integer id, String token);
 }

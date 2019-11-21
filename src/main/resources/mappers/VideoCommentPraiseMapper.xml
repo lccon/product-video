@@ -44,4 +44,9 @@
         and comment_id = #{commentId}
     </update>
 
+    <select id="getVideoPraiseByVideoId"  parameterType="cilicili.jz2.domain.VideoCommentPraise"
+            resultMap="videoCommentPraiseMap">
+        SELECT <include refid="columns"/> FROM video_comment_praise
+        where user_id = #{userId} and video_id = #{videoId}
+    </select>
 </mapper>
