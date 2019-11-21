@@ -1,11 +1,9 @@
 /* created at 2018/4/10 by BlueSky @cilicili */
 
-const LOGIN_STATUS = ajaxLogin.now();
+let LOGIN_STATUS = ajaxLogin.now();
 
 const UPDATE_LOGIN_STATUS = () => {
-  let data = ajaxLogin.now();
-  LOGIN_STATUS.status = (data != null && data.id != null);
-  LOGIN_STATUS.user = data;
+  LOGIN_STATUS = ajaxLogin.now();
 };
 
 // if (LOGIN_STATUS.status === false && utils.getPage() !== 'index' && utils.getPage() !== 'login') {
