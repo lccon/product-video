@@ -58,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
 		comment.setSendtime(ZonedDateTime.now());
 		comment.setCountLike(0);
 		try {
-			commentMapper.insertComment(comment);
+			commentMapper.addComment(comment);
 			return comment;
 		} catch (Exception e) {
 			throw new ServiceValidationException("新增视频评论出错！", e);
@@ -112,7 +112,6 @@ public class CommentServiceImpl implements CommentService {
 			videoCommentPraiseService.updateCommentPraise(commentPraise);
 		} else {
 			commentPraise.setHasCommentPraise(1);
-            commentPraise.setCreateDate(new Date());
 			comment.setCountLike(comment.getCountLike() + 1);
 			videoCommentPraiseService.addVideoCommentPraise(commentPraise);
 		}

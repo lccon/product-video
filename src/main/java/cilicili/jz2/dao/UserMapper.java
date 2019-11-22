@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 
-    int insert(User record);
+    int addUser(User record);
 
     User selectByPrimaryKey(Integer id);
 

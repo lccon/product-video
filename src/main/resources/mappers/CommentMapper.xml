@@ -8,6 +8,8 @@
     <result property="content" column="content"/>
     <result property="sendtime" column="sendtime"/>
     <result property="countLike" column="count_like"/>
+    <result property="createDate" column="create_date"/>
+    <result property="updateDate" column="update_date"/>
   </resultMap>
 
   <resultMap id="commentVoResultMap" type="cilicili.jz2.vo.CommentVO">
@@ -21,14 +23,14 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, video_id, user_id, content, sendtime, count_like
+    id, video_id, user_id, content, sendtime, count_like, create_date, update_date
   </sql>
 
-  <insert id="insertComment" parameterType="cilicili.jz2.domain.Comment">
+  <insert id="addComment" parameterType="cilicili.jz2.domain.Comment">
     insert into comments
-    (id, video_id, user_id, content, sendtime, count_like)
+    (id, video_id, user_id, content, sendtime, count_like, create_date)
     values
-    (#{id}, #{videoId}, #{userId}, #{content}, #{sendtime}, #{countLike})
+    (#{id}, #{videoId}, #{userId}, #{content}, #{sendtime}, #{countLike}, #{createDate})
   </insert>
 
   <update id="updateComment" parameterType="cilicili.jz2.domain.Comment">
@@ -48,6 +50,9 @@
       </if>
       <if test="countLike != null">
         count_like = #{countLike},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate}
       </if>
     </set>
     where id = #{id}

@@ -11,6 +11,8 @@
     <result property="countLike" column="count_like"/>
     <result property="picUrl" column="pic_url"/>
     <result property="description" column="description"/>
+    <result property="createDate" column="create_date"/>
+    <result property="updateDate" column="update_date"/>
   </resultMap>
 
   <resultMap id="videoVoResultMap" type="cilicili.jz2.vo.VideoVO">
@@ -27,14 +29,14 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description
+    id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description, create_date, update_date
   </sql>
 
-  <insert id="insertVideo" parameterType="cilicili.jz2.domain.Video">
+  <insert id="addVideo" parameterType="cilicili.jz2.domain.Video">
     insert into videos
-    (id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description)
+    (id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description, create_date)
     values
-    (#{id}, #{title}, #{url}, #{uploadUserid}, #{uploadTime}, #{countPlay}, #{countLike}, #{picUrl}, #{description})
+    (#{id}, #{title}, #{url}, #{uploadUserid}, #{uploadTime}, #{countPlay}, #{countLike}, #{picUrl}, #{description}, #{createDate})
   </insert>
 
   <update id="updateVideo" parameterType="cilicili.jz2.vo.VideoVO">

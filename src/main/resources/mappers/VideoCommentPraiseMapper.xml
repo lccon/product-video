@@ -8,10 +8,11 @@
         <result property="commentId" column="comment_id"/>
         <result property="hasCommentPraise" column="has_comment_praise"/>
         <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
 
     <sql id="columns">
-        id, user_id, video_id, comment_id, has_comment_praise, create_date
+        id, user_id, video_id, comment_id, has_comment_praise, create_date, update_date
     </sql>
 
     <insert id="addVideoCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
@@ -42,6 +43,7 @@
         UPDATE video_comment_praise SET has_comment_praise=#{hasCommentPraise}
         WHERE user_id = #{userId}
         and comment_id = #{commentId}
+        and update_date = #{updateDate}
     </update>
 
     <select id="getVideoPraiseByVideoId"  parameterType="cilicili.jz2.domain.VideoCommentPraise"

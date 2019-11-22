@@ -11,7 +11,7 @@ public interface BarrageMapper {
      * @param record
      * @return
      */
-    int insertBarrage(Barrage record);
+    int addBarrage(Barrage record);
 
     /**
      * 查询弹幕列表

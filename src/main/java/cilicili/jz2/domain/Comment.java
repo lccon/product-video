@@ -1,9 +1,10 @@
 package cilicili.jz2.domain;
 
-import java.io.Serializable;
+import cilicili.jz2.base.BaseDomain;
+
 import java.time.ZonedDateTime;
 
-public class Comment implements Serializable {
+public class Comment extends BaseDomain {
     private Integer id;
 
     private Integer videoId;

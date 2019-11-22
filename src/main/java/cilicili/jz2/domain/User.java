@@ -1,8 +1,8 @@
 package cilicili.jz2.domain;
 
-import java.io.Serializable;
+import cilicili.jz2.base.BaseDomain;
 
-public class User implements Serializable {
+public class User extends BaseDomain {
     private Integer id;
 
     private String username;

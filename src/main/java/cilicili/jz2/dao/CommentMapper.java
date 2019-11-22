@@ -19,7 +19,7 @@ public interface CommentMapper {
      * @param record
      * @return
      */
-    int insertComment(Comment record);
+    int addComment(Comment record);
 
     /**
      * 修改评论

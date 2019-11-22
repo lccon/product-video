@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 			user.setId(null);
 			user.setIdentity("普通会员");
 			user.setPassword(PasswordUtil.getHashedPassword(user.getPassword()));
-			userMapper.insert(user);
+			userMapper.addUser(user);
 			return user;
 		} catch (Exception e) {
 			throw new ServiceValidationException("新增用户出错！", e);

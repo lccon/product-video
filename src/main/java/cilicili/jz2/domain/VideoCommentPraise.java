@@ -1,6 +1,7 @@
 package cilicili.jz2.domain;
 
-import java.io.Serializable;
+import cilicili.jz2.base.BaseDomain;
+
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @Date:2019/11/18
  * @Author:lc
  */
-public class VideoCommentPraise implements Serializable {
+public class VideoCommentPraise extends BaseDomain {
     /** 主键id */
     private Integer id;
     /** 用户id */
@@ -20,8 +21,6 @@ public class VideoCommentPraise implements Serializable {
     private Integer commentId;
     /** 用户是否已经对评论进行过点赞 0:否，1:是*/
     private Integer hasCommentPraise;
-    /** 创建时间 */
-    private Date createDate;
 
     public Integer getId() {
         return id;
@@ -53,14 +52,6 @@ public class VideoCommentPraise implements Serializable {
 
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     public Integer getHasCommentPraise() {

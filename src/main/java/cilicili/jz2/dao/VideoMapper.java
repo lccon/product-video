@@ -13,7 +13,7 @@ public interface VideoMapper {
      * @param record
      * @return
      */
-    int insertVideo(Video record);
+    int addVideo(Video record);
 
     /**
      * 修改视频信息

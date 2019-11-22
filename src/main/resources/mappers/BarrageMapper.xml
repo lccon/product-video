@@ -10,10 +10,12 @@
     <result property="position" column="position"/>
     <result property="offtime" column="offtime"/>
     <result property="sendtime" column="sendtime"/>
+    <result property="createDate" column="create_date"/>
+    <result property="updateDate" column="update_date"/>
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, user_id, video_id, sendtime, content, color, offtime, position
+    id, user_id, video_id, sendtime, content, color, offtime, position, create_date, update_date
   </sql>
 
   <select id="findBarrageList" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -23,11 +25,11 @@
     WHERE video_id = #{videoId}
   </select>
 
-  <insert id="insertBarrage" parameterType="cilicili.jz2.domain.Barrage">
+  <insert id="addBarrage" parameterType="cilicili.jz2.domain.Barrage">
     insert into barrages
-    (id, user_id, video_id, sendtime, content, color, offtime, position)
+    (id, user_id, video_id, sendtime, content, color, offtime, position, create_date)
     values
-    (#{id}, #{userId}, #{videoId}, #{sendtime}, #{content}, #{color}, #{offtime}, #{position})
+    (#{id}, #{userId}, #{videoId}, #{sendtime}, #{content}, #{color}, #{offtime}, #{position}, #{createDate})
   </insert>
 
   <update id="updateBarrage" parameterType="cilicili.jz2.domain.Barrage">
@@ -53,6 +55,9 @@
       </if>
       <if test="position != null">
         position = #{position},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate},
       </if>
     </set>
     where id = #{id}
