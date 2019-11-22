@@ -44,7 +44,14 @@ public class VideoServiceImpl implements VideoService {
 	
 	@Override
 	public VideoVO findVideoByUrl(String url) {
-		return videoMapper.findByUrl(url);
+	    if(StringUtils.isEmpty(url)) {
+	        throw new BusinessValidationException("视频地址不能为空!");
+        }
+        try {
+            return videoMapper.findByUrl(url);
+        } catch (Exception e) {
+	        throw new ServiceValidationException("获取视频出错!", e);
+        }
 	}
 	
 	@Override
@@ -115,11 +122,22 @@ public class VideoServiceImpl implements VideoService {
 	
 	@Override
 	public List<VideoVO> showVideos() {
-		return videoMapper.findAllVideos();
+	    try {
+            return videoMapper.findAllVideos();
+        } catch (Exception e) {
+	        throw new ServiceValidationException("获取所有的视频出错！", e);
+        }
 	}
 	
 	@Override
 	public List<VideoVO> queryVideos(String keyword) {
-		return videoMapper.queryVideo("%" + keyword + "%");
+	    if (StringUtils.isEmpty(keyword)) {
+	        throw new BusinessValidationException("关键词不能为空!");
+        }
+        try {
+            return videoMapper.queryVideo(keyword);
+        } catch (Exception e) {
+	        throw new ServiceValidationException("获取视频出错!", e);
+        }
 	}
 }

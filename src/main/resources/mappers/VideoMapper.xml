@@ -76,41 +76,29 @@
   </select>
 
   <select id="findByUrl" resultMap="videoVoResultMap">
-    SELECT *
-    FROM videos AS a
-    JOIN
-    (SELECT
-    username 'upload_username',
-    id       'user_id'
-    FROM users) AS b
-    ON a.upload_userid = b.user_id
+    SELECT a.*, b.username upload_username
+    FROM videos a
+    LEFT JOIN users b
+    ON a.upload_userid = b.id
     WHERE a.url = #{url}
   </select>
 
   <select id="findAllVideos" resultMap="videoVoResultMap">
-    SELECT *
-    FROM videos AS a
-    JOIN
-    (SELECT
-    username 'upload_username',
-    id       'user_id'
-    FROM users) AS b
-    ON a.upload_userid = b.user_id
+    SELECT a.*, username upload_username
+    FROM videos a
+    LEFT JOIN users b
+    ON a.upload_userid = b.id
     ORDER BY a.id DESC
   </select>
 
   <select id="queryVideo" resultMap="videoVoResultMap">
-    SELECT *
-    FROM videos AS a
-    JOIN
-    (SELECT
-    username 'upload_username',
-    id       'user_id'
-    FROM users) AS b
-    ON a.upload_userid = b.user_id
-    WHERE a.title LIKE #{keyword}
-    OR a.description LIKE #{keyword}
-    OR b.upload_username LIKE #{keyword}
+    SELECT a.*, b.username upload_username
+    FROM videos a
+    LEFT JOIN users b
+    ON a.upload_userid = b.id
+    WHERE a.title LIKE CONCAT('%', #{keyword}, '%')
+    OR a.description LIKE CONCAT('%', #{keyword}, '%')
+    OR b.username LIKE CONCAT('%', #{keyword}, '%')
     ORDER BY a.id DESC
   </select>
 
