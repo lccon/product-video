@@ -43,7 +43,7 @@ public class UploadController {
 		File storageFile;
 		try {
 			storageFilename = RandomUtil.getRandomFilename(extension, filename, token);
-			storageFile = new File(realPath + "\\" + storageFilename);
+			storageFile = new File(realPath + File.separator + storageFilename);
 			file.transferTo(storageFile);
 			if(bgsound != null && !"null".equals(bgsound) && !"0".equals(bgsound)) {
 				Encoder encoder =new Encoder();
@@ -56,7 +56,7 @@ public class UploadController {
 				} else if (bgsound.equals("2")) {
 					videoConvertUrl = AttachConvertUtil.noSoundVideoConvert(storageFilename, seconds, request);
 				}
-				File originalFile = new File(realPath + "\\" + storageFilename);
+				File originalFile = new File(realPath + File.separator + storageFilename);
 				if (originalFile.exists()) {
 					originalFile.delete();
 				}
