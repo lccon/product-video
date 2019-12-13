@@ -20,6 +20,8 @@
                             expression="org.springframework.stereotype.Controller" />
   </context:component-scan>
 
+  <context:property-placeholder location="classpath:grid.properties"/>
+
   <!-- 基于注解方式使用异常处理框架 -->
   <bean class="cilicili.jz2.exception.processor.ExceptionalAnnotationBeanPostProcessor" />
   <bean id="captureExceptionHandler" class="cilicili.jz2.exception.view.CaptureExceptionHandler"></bean>

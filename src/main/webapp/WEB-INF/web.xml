@@ -9,7 +9,8 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:applicationContext.xml
-      classpath:mybatisContext.xml
+      classpath:applicationContext-cache.xml
+      classpath:applicationContext-mybatis.xml
       classpath:utilsContext.xml
     </param-value>
   </context-param>
