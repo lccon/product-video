@@ -40,10 +40,9 @@
     </select>
 
     <update id="updateCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
-        UPDATE video_comment_praise SET has_comment_praise=#{hasCommentPraise}
+        UPDATE video_comment_praise SET has_comment_praise=#{hasCommentPraise}, update_date = #{updateDate}
         WHERE user_id = #{userId}
         and comment_id = #{commentId}
-        and update_date = #{updateDate}
     </update>
 
     <select id="getVideoPraiseByVideoId"  parameterType="cilicili.jz2.domain.VideoCommentPraise"

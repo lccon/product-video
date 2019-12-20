@@ -135,7 +135,7 @@
           this.msg = tokenMsg.message || '网络连接异常';
           this.tipFailure = true;
         } else {
-          utils.setCookie("apply", tokenMsg.token);
+          utils.setCookie("apply", tokenMsg.sessionId);
         }
         const updateUserData = ajaxUser.update({
           username: this.username,
@@ -157,7 +157,7 @@
             this.tipFailure = false;
             this.tipSuccess = true;
             this.msg = '保存成功';
-            utils.setCookie("token", data.token);
+            utils.setCookie("token", data.sessionId);
             setTimeout(()=>{window.location.reload()}, 3000);
           }
         }

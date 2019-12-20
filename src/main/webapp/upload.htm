@@ -213,7 +213,7 @@
           this.uploadInfo = fileMsg.message || '网络连接异常';
           this.uploadInfoColor = 'danger';
         } else {
-          utils.setCookie("apply", fileMsg.token);
+          utils.setCookie("apply", fileMsg.sessionId);
         }
         let url = "";
         const imageMsg = ajaxUpload.upload(new FormData(document.forms['imageform']), null);
@@ -231,7 +231,7 @@
           this.uploadInfoColor = 'danger';
           this.uploadInfo = msg;
         } else {
-          utils.setCookie("apply", uploadMsg.token);
+          utils.setCookie("apply", uploadMsg.sessionId);
         }
         const videoInfo = ajaxUpload.upload(new FormData(document.forms['videoform']), this.videofile.bgsound);
         if (videoInfo.message != null && videoInfo.message != "") {

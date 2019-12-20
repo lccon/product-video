@@ -40,8 +40,8 @@ public interface VideoCommentPraiseService {
     /**
      * 查询视频点赞状态
      * @param id
-     * @param token
+     * @param userId
      * @return
      */
-    VideoCommentPraise getVideoPraiseByVideoId(Integer id, String token);
+    VideoCommentPraise getVideoPraiseByVideoId(Integer id, Integer userId);
 }

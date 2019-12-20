@@ -1,6 +1,8 @@
 package cilicili.jz2.controller;
 
+import cilicili.jz2.component.ThreadVariable;
 import cilicili.jz2.domain.*;
+import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.service.impl.CommentServiceImpl;
 import cilicili.jz2.vo.CommentVO;
 import com.github.pagehelper.PageInfo;
@@ -37,19 +39,32 @@ public class CommentController {
 	@RequestMapping ("/add")
 	@ResponseBody
 	public Comment addComment(Comment comment, String token) {
-		return commentService.addComment(comment, token);
+		Session session = ThreadVariable.getSession();
+		if (session == null || session.getUserId() == null) {
+			throw new BusinessValidationException("请重新登录!");
+		}
+		comment.setUserId(session.getUserId());
+		return commentService.addComment(comment);
 	}
 	
 	@RequestMapping ("/delete")
 	@ResponseBody
 	public Boolean deleteComment(Integer id, String token) {
-		return commentService.deleteComment(id, token);
+        Session session = ThreadVariable.getSession();
+        if (session == null || session.getUserId() == null) {
+            throw new BusinessValidationException("请重新登录!");
+        }
+		return commentService.deleteComment(id, session.getUserId());
 	}
 	
 	@RequestMapping ("/like")
 	@ResponseBody
 	public Comment likeComment(Integer id, String token) {
-		return commentService.updateComment(id, token);
+        Session session = ThreadVariable.getSession();
+        if (session == null || session.getUserId() == null) {
+            throw new BusinessValidationException("请重新登录!");
+        }
+		return commentService.updateComment(id, session.getUserId());
 	}
 	
 }

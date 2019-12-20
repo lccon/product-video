@@ -3,7 +3,8 @@ const ajaxUpload = {
   upload(data, bgsound) {
     let json = {};
     $.ajax({
-      url:API_SERVER_padEnd("/upload/"+`${utils.getCookie('apply')}`+"/"+bgsound),
+      //url:API_SERVER_padEnd("/upload/"+`${utils.getCookie('apply')}`+"/"+bgsound),
+        url:API_SERVER_padEnd("/upload/"+bgsound),
       data,
       type: 'POST',
       encType: 'multipart/form-data',

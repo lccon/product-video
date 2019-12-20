@@ -145,7 +145,7 @@
             this.tipFailure = true;
             this.msg = data.message || '网络连接异常';
           } else {
-            utils.setCookie("token", data.token);
+            utils.setCookie("token", data.sessionId);
             location.href = "index.htm";
           }
         }

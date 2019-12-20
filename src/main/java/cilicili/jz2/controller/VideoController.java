@@ -1,6 +1,9 @@
 package cilicili.jz2.controller;
 
+import cilicili.jz2.component.ThreadVariable;
+import cilicili.jz2.domain.Session;
 import cilicili.jz2.domain.Video;
+import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.service.impl.VideoServiceImpl;
 import cilicili.jz2.vo.VideoVO;
 import com.github.pagehelper.PageHelper;
@@ -31,19 +34,21 @@ public class VideoController {
 	@RequestMapping ("/add")
 	@ResponseBody
 	public VideoVO addVideo(Video video, String token) {
-		return videoService.addVideo(video, token);
+		Session session = ThreadVariable.getSession();
+		if (session == null) {
+			throw new BusinessValidationException("请重新登录!");
+		}
+		return videoService.addVideo(video, session.getUserId());
 	}
 	
 	@RequestMapping ("/play")
 	@ResponseBody
 	public VideoVO playVideo(Integer id, Integer operateState) {
-		return videoService.updateVideo(id, operateState, null);
-	}
-	
-	@RequestMapping ("/like")
-	@ResponseBody
-	public VideoVO likeVideo(Integer id, Integer operateState, String token) {
-		return videoService.updateVideo(id, operateState, token);
+		Session session = ThreadVariable.getSession();
+		if (session == null) {
+			throw new BusinessValidationException("请重新登录!");
+		}
+		return videoService.updateVideo(id, operateState, session.getUserId());
 	}
 	
 	@RequestMapping ("/show")

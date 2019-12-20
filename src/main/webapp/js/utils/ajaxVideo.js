@@ -27,15 +27,6 @@ const ajaxVideo = {
         json = response;
       });
     return json;
-  }, like(id, operateState) {
-    let json = {};
-    $.post(
-      API_SERVER_padEnd("video/like"), {
-        id, operateState, token: utils.getCookie("token")
-      }, response => {
-        json = response;
-      });
-    return json;
   }, show(offset) {
     let json = {};
     $.post(

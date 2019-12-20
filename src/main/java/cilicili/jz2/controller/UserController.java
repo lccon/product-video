@@ -1,6 +1,9 @@
 package cilicili.jz2.controller;
 
+import cilicili.jz2.component.ThreadVariable;
+import cilicili.jz2.domain.Session;
 import cilicili.jz2.domain.User;
+import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping ("/user")
+@RequestMapping ("user")
 public class UserController {
     @Autowired
 	private UserServiceImpl userService;
@@ -29,6 +32,11 @@ public class UserController {
 	@RequestMapping (value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public User updateUser(User user, String token, String apply) {
-		return userService.updateUser(user, token, apply);
+		Session session = ThreadVariable.getSession();
+		if(session == null || session.getUserId() == null) {
+			throw new BusinessValidationException("请重新登录!");
+		}
+		user.setId(session.getUserId());
+		return userService.updateUser(user);
 	}
 }

@@ -7,17 +7,13 @@ import cilicili.jz2.exception.base.ServiceValidationException;
 import cilicili.jz2.service.BarrageService;
 import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoService;
-import cilicili.jz2.utils.TokenUtil;
 import cilicili.jz2.vo.VideoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service ("barrageService")
 public class BarrageServiceImpl implements BarrageService {
@@ -29,9 +25,8 @@ public class BarrageServiceImpl implements BarrageService {
 	private VideoService videoService;
 
 	@Override
-	public Barrage addBarrage(Barrage barrage, String token) {
-		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-		User user = userService.findUserById(tokenCheck.getUserId());
+	public Barrage addBarrage(Barrage barrage) {
+		User user = userService.findUserById(barrage.getUserId());
 		if (user == null) {
 			throw new BusinessValidationException("用户不存在");
 		}
@@ -58,7 +53,6 @@ public class BarrageServiceImpl implements BarrageService {
 			if (barrage.getPosition() == null || barrage.getPosition() < 0) {
 				barrage.setPosition(Byte.valueOf("0"));
 			}
-			barrage.setUserId(user.getId());
 			barrage.setSendtime(ZonedDateTime.now());
 			barrageMapper.addBarrage(barrage);
 			return barrage;

@@ -2,7 +2,6 @@ package cilicili.jz2.service.impl;
 
 import cilicili.jz2.constant.VideoConstants;
 import cilicili.jz2.dao.VideoMapper;
-import cilicili.jz2.domain.Token;
 import cilicili.jz2.domain.User;
 import cilicili.jz2.domain.VideoCommentPraise;
 import cilicili.jz2.exception.base.BusinessValidationException;
@@ -11,14 +10,12 @@ import cilicili.jz2.domain.Video;
 import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
-import cilicili.jz2.utils.TokenUtil;
 import cilicili.jz2.vo.VideoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service ("videoService")
@@ -55,9 +52,8 @@ public class VideoServiceImpl implements VideoService {
 	}
 	
 	@Override
-	public VideoVO addVideo(Video video, String token) {
-		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-		User user = userService.findUserById(tokenCheck.getUserId());
+	public VideoVO addVideo(Video video, Integer userId) {
+		User user = userService.findUserById(userId);
 		if (user == null) {
 			throw new BusinessValidationException("用户不存在");
 		}
@@ -93,16 +89,14 @@ public class VideoServiceImpl implements VideoService {
 	}
 	
 	@Override
-	public VideoVO updateVideo(Integer id, Integer readCount, String token) {
+	public VideoVO updateVideo(Integer id, Integer readCount, Integer userId) {
 		VideoVO videoVo = findVideoById(id);
 		if(VideoConstants.PLAY_COUNT.equals(readCount)) {
 			videoVo.setCountPlay(videoVo.getCountPlay() + 1);
 		} else if (VideoConstants.LIKE_COUNT.equals(readCount)) {
-			Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-			User user = userService.findUserById(tokenCheck.getUserId());
 			VideoCommentPraise videoPraise = new VideoCommentPraise();
 			videoPraise.setVideoId(id);
-			videoPraise.setUserId(user.getId());
+			videoPraise.setUserId(userId);
 			Integer count = videoCommentPraiseService.countVideoPraiseNum(videoPraise);
 			if(count > 0) {
 				throw new BusinessValidationException("赞过啦！");

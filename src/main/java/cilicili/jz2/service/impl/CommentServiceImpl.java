@@ -8,22 +8,18 @@ import cilicili.jz2.service.CommentService;
 import cilicili.jz2.service.UserService;
 import cilicili.jz2.service.VideoCommentPraiseService;
 import cilicili.jz2.service.VideoService;
-import cilicili.jz2.utils.TokenUtil;
 import cilicili.jz2.vo.CommentVO;
 import cilicili.jz2.vo.VideoVO;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentMapper commentMapper;
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private VideoService videoService;
 	@Autowired
@@ -35,12 +31,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Comment addComment(Comment comment, String token) {
-		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-		User user = userService.findUserById(tokenCheck.getUserId());
-		if(user == null) {
-			throw new BusinessValidationException("用户不存在");
-		}
+	public Comment addComment(Comment comment) {
 		if (comment.getContent() == null) {
 			throw new BusinessValidationException("评论内容为空");
 		}
@@ -54,7 +45,6 @@ public class CommentServiceImpl implements CommentService {
 		if (videoVo == null) {
 			throw new BusinessValidationException("视频不存在");
 		}
-		comment.setUserId(user.getId());
 		comment.setSendtime(ZonedDateTime.now());
 		comment.setCountLike(0);
 		try {
@@ -67,17 +57,12 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Boolean deleteComment(Integer id, String token) {
-		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-		User user = userService.findUserById(tokenCheck.getUserId());
-		if (user == null) {
-			throw new BusinessValidationException("用户不存在");
-		}
+	public Boolean deleteComment(Integer id, Integer userId) {
 		Comment comment = findCommentById(id);
 		if (comment == null) {
 			throw new BusinessValidationException("没有该评论");
 		}
-		if (!user.getId().equals(comment.getUserId())) {
+		if (!userId.equals(comment.getUserId())) {
 			throw new BusinessValidationException("非本人操作，拒绝授权");
 		}
 		try {
@@ -89,12 +74,10 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Comment updateComment(Integer id, String token) {
+	public Comment updateComment(Integer id, Integer userId) {
 		Comment comment = findCommentById(id);
-		Token tokenCheck = TokenUtil.checkToken(token, TokenUtil.TokenUssage.DEFAULT);
-		User user = userService.findUserById(tokenCheck.getUserId());
 		VideoCommentPraise commentPraise = new VideoCommentPraise();
-		commentPraise.setUserId(user.getId());
+		commentPraise.setUserId(userId);
 		commentPraise.setCommentId(id);
 		VideoCommentPraise commentPraiseInfo = videoCommentPraiseService.getCommentPraiseInfo(commentPraise);
 		if (commentPraiseInfo != null) {

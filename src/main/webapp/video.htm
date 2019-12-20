@@ -391,7 +391,7 @@
         , methods: {
             like() {
                 if (!this.liked) {
-                    ajaxVideo.like(VIDEO_INFO.id, 2);
+                    ajaxVideo.play(VIDEO_INFO.id, 2);
                     this.video.countLike++;
                     this.liked = true;
                 }

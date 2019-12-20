@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cilicili.jz2.dao.SessionMapper">
+    <resultMap id="sessionResultMap" type="cilicili.jz2.domain.Session">
+        <result property="id" column="id" />
+        <result property="sessionId" column="session_id" />
+        <result property="userId" column="user_id" />
+        <result property="userName" column="user_name" />
+        <result property="accessIp" column="access_ip" />
+        <result property="accessTime" column="access_time" />
+        <result property="isLogin" column="is_login" />
+        <result property="loginDate" column="login_date" />
+        <result property="lastUrl" column="last_url" />
+        <result property="loginIp" column="login_ip" />
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, session_id, user_id, user_name, access_ip, access_time, is_login, login_date,
+        last_url, login_ip, create_date, update_date
+    </sql>
+
+    <select id="getSessionBySessionId" parameterType="java.lang.String" resultMap="sessionResultMap">
+        SELECT <include refid="columns"/> FROM user_session
+        WHERE session_id = #{sessionId} AND is_login=1
+    </select>
+
+    <delete id="deleteSessionBySessionId" parameterType="java.lang.String">
+        DELETE FROM user_session WHERE session_id = #{sessionId}
+    </delete>
+    
+    <update id="updateSessionBySessionId" parameterType="cilicili.jz2.domain.Session">
+        UPDATE user_session 
+        <set>
+            <if test="accessIp != null and accessIp != ''">
+                access_ip = #{accessIp},
+            </if>
+            <if test="accessTime != null">
+                access_time = #{accessTime},
+            </if>
+            <if test="lastUrl != null and lastUrl != ''">
+                last_url = #{lastUrl},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate}
+            </if>
+        </set>
+        WHERE session_id = #{sessionId}
+    </update>
+
+    <insert id="addSession" parameterType="cilicili.jz2.domain.Session">
+        <selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO user_session
+        (id, session_id, user_id, user_name, access_ip, access_time, is_login, login_date, last_url, login_ip, create_date)
+        VALUES
+        (#{id}, #{sessionId}, #{userId}, #{userName}, #{accessIp}, #{accessTime}, #{isLogin}, #{loginDate}, #{lastUrl}, #{loginIp}, #{createDate})
+    </insert>
+</mapper>

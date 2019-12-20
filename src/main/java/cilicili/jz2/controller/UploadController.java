@@ -1,10 +1,11 @@
 package cilicili.jz2.controller;
 
+import cilicili.jz2.component.ThreadVariable;
 import cilicili.jz2.constant.VideoConstants;
+import cilicili.jz2.domain.Session;
 import cilicili.jz2.exception.base.BusinessValidationException;
 import cilicili.jz2.exception.base.ServiceValidationException;
 import cilicili.jz2.utils.RandomUtil;
-import cilicili.jz2.utils.TokenUtil;
 import cilicili.jz2.utils.AttachConvertUtil;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.MultimediaInfo;
@@ -20,13 +21,14 @@ import java.util.Map;
 @Controller
 public class UploadController {
 
-	@RequestMapping (value = "/upload/{token}/{bgsound}", method = RequestMethod.POST)
+	@RequestMapping (value = "/upload/{bgsound}", method = RequestMethod.POST)
 	@ResponseBody
-	public String upload(MultipartFile file, @PathVariable ("token") String token,
-						 @PathVariable ("bgsound") String bgsound,
+	public String upload(MultipartFile file, @PathVariable ("bgsound") String bgsound,
 						 HttpServletRequest request) throws Exception {
-
-		TokenUtil.checkToken(token, TokenUtil.TokenUssage.UPLOAD_FILE);
+		Session session = ThreadVariable.getSession();
+		if(session == null) {
+			throw new BusinessValidationException("请重新登录!");
+		}
 		if (file == null || file.isEmpty()) {
 			throw new BusinessValidationException("没有选择文件");
 		}
@@ -42,7 +44,7 @@ public class UploadController {
 		String storageFilename;
 		File storageFile;
 		try {
-			storageFilename = RandomUtil.getRandomFilename(extension, filename, token);
+			storageFilename = RandomUtil.getRandomFilename(extension, filename, session.getSessionId());
 			storageFile = new File(realPath + File.separator + storageFilename);
 			file.transferTo(storageFile);
 			if(bgsound != null && !"null".equals(bgsound) && !"0".equals(bgsound)) {
