@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cilicili.jz2.dao.VideoMapper">
-  <resultMap id="videoResultMap" type="cilicili.jz2.domain.Video">
+<mapper namespace="com.lc.dao.VideoMapper">
+  <resultMap id="videoResultMap" type="com.lc.domain.Video">
     <id property="id" column="id"/>
     <result property="title" column="title"/>
     <result property="url" column="url"/>
@@ -15,7 +15,7 @@
     <result property="updateDate" column="update_date"/>
   </resultMap>
 
-  <resultMap id="videoVoResultMap" type="cilicili.jz2.vo.VideoVO">
+  <resultMap id="videoVoResultMap" type="com.lc.vo.VideoVO">
     <id column="id" property="id"/>
     <result column="title" property="title"/>
     <result column="url" property="url"/>
@@ -32,14 +32,14 @@
     id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description, create_date, update_date
   </sql>
 
-  <insert id="addVideo" parameterType="cilicili.jz2.domain.Video">
+  <insert id="addVideo" parameterType="com.lc.domain.Video">
     insert into videos
     (id, title, url, upload_userid, upload_time, count_play, count_like, pic_url, description, create_date)
     values
     (#{id}, #{title}, #{url}, #{uploadUserid}, #{uploadTime}, #{countPlay}, #{countLike}, #{picUrl}, #{description}, #{createDate})
   </insert>
 
-  <update id="updateVideo" parameterType="cilicili.jz2.vo.VideoVO">
+  <update id="updateVideo" parameterType="com.lc.vo.VideoVO">
     update videos
     <set>
       <if test="title != null">

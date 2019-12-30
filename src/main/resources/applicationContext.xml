@@ -15,7 +15,7 @@
 
   <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-  <context:component-scan base-package="cilicili.jz2">
+  <context:component-scan base-package="com.lc">
     <context:exclude-filter type="annotation"
                             expression="org.springframework.stereotype.Controller" />
   </context:component-scan>
@@ -23,8 +23,8 @@
   <context:property-placeholder location="classpath:grid.properties"/>
 
   <!-- 基于注解方式使用异常处理框架 -->
-  <bean class="cilicili.jz2.exception.processor.ExceptionalAnnotationBeanPostProcessor" />
-  <bean id="captureExceptionHandler" class="cilicili.jz2.exception.view.CaptureExceptionHandler"></bean>
+  <bean class="com.lc.exception.processor.ExceptionalAnnotationBeanPostProcessor" />
+  <bean id="captureExceptionHandler" class="com.lc.exception.view.CaptureExceptionHandler"></bean>
 
   <!-- 注解式事务 @Transaction -->
   <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -53,7 +53,7 @@
 
   <aop:config expose-proxy="true">
     <!-- 只对业务逻辑层实施事务 -->
-    <aop:pointcut id="txPointcut" expression="execution(* cilicili..service.*Service.*(..))" />
+    <aop:pointcut id="txPointcut" expression="execution(* com..service.*Service.*(..))" />
     <!-- Advisor定义，切入点和通知分别为txPointcut、txAdvice -->
     <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" />
   </aop:config>

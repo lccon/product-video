@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cilicili.jz2.dao.VideoCommentPraiseMapper">
-    <resultMap id="videoCommentPraiseMap" type="cilicili.jz2.domain.VideoCommentPraise">
+<mapper namespace="com.lc.dao.VideoCommentPraiseMapper">
+    <resultMap id="videoCommentPraiseMap" type="com.lc.domain.VideoCommentPraise">
         <id property="id" column="id"/>
         <result property="userId" column="user_id"/>
         <result property="videoId" column="video_id"/>
@@ -15,7 +15,7 @@
         id, user_id, video_id, comment_id, has_comment_praise, create_date, update_date
     </sql>
 
-    <insert id="addVideoCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
+    <insert id="addVideoCommentPraise" parameterType="com.lc.domain.VideoCommentPraise">
         <selectKey keyColumn="id" resultType="java.lang.Integer" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -25,13 +25,13 @@
         (#{id}, #{userId}, #{videoId}, #{commentId}, #{hasCommentPraise}, #{createDate})
     </insert>
 
-    <select id="countVideoPraiseNum" parameterType="cilicili.jz2.domain.VideoCommentPraise"
+    <select id="countVideoPraiseNum" parameterType="com.lc.domain.VideoCommentPraise"
             resultType="java.lang.Integer">
         SELECT count(*) FROM video_comment_praise
         where user_id = #{userId} and video_id = #{videoId}
     </select>
 
-    <select id="getCommentPraiseInfo" parameterType="cilicili.jz2.domain.VideoCommentPraise"
+    <select id="getCommentPraiseInfo" parameterType="com.lc.domain.VideoCommentPraise"
             resultMap="videoCommentPraiseMap">
         SELECT <include refid="columns"/>
         FROM video_comment_praise
@@ -39,13 +39,13 @@
         and comment_id = #{commentId}
     </select>
 
-    <update id="updateCommentPraise" parameterType="cilicili.jz2.domain.VideoCommentPraise">
+    <update id="updateCommentPraise" parameterType="com.lc.domain.VideoCommentPraise">
         UPDATE video_comment_praise SET has_comment_praise=#{hasCommentPraise}, update_date = #{updateDate}
         WHERE user_id = #{userId}
         and comment_id = #{commentId}
     </update>
 
-    <select id="getVideoPraiseByVideoId"  parameterType="cilicili.jz2.domain.VideoCommentPraise"
+    <select id="getVideoPraiseByVideoId"  parameterType="com.lc.domain.VideoCommentPraise"
             resultMap="videoCommentPraiseMap">
         SELECT <include refid="columns"/> FROM video_comment_praise
         where user_id = #{userId} and video_id = #{videoId}

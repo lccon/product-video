@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cilicili.jz2.dao.TokenMapper">
-  <resultMap id="BaseResultMap" type="cilicili.jz2.domain.Token">
+<mapper namespace="com.lc.dao.TokenMapper">
+  <resultMap id="BaseResultMap" type="com.lc.domain.Token">
       <id property="id" column="id"/>
       <result property="userId" column="user_id"/>
       <result property="token" column="token"/>
@@ -28,14 +28,14 @@
     WHERE user_id = #{userId}
   </delete>
 
-  <insert id="insert" parameterType="cilicili.jz2.domain.Token">
+  <insert id="insert" parameterType="com.lc.domain.Token">
     insert into tokens
     (id, user_id, token, applytime, expiretime, count_auth, max_count_auth, ussage)
     values
     (#{id}, #{userId}, #{token}, #{applytime}, #{expiretime}, #{countAuth}, #{maxCountAuth}, #{ussage})
   </insert>
 
-  <update id="updateToken" parameterType="cilicili.jz2.domain.Token">
+  <update id="updateToken" parameterType="com.lc.domain.Token">
     update tokens
     <set>
       <if test="userId != null">
